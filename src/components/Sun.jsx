@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { Outlines, useGLTF, useTexture } from "@react-three/drei";
+import { Bloom, Outline, EffectComposer } from "@react-three/postprocessing";
 
 export default function Sun({ sunRadius }) {
   const sunRef = useRef(null);
@@ -13,12 +14,21 @@ export default function Sun({ sunRadius }) {
   });
   console.log("sun", scene.children[0]);
   return (
-    <mesh
-      name="SunMesh"
-      geometry={scene.children[0].geometry}
-      material={scene.children[0].material}
-      position={[0, 0, 0]}
-      scale={(sunRadius, 20, 20)}
-    />
+    <>
+      <EffectComposer disableNormalPass={true}>
+        <Bloom intensity={1.5} />
+      </EffectComposer>
+
+      <mesh
+        name="SunMesh"
+        geometry={scene.children[0].geometry}
+        // material={scene.children[0].material}
+        position={[0, 0, 0]}
+        scale={(sunRadius, 20, 20)}
+      >
+
+        <meshStandardMaterial emissive="orange" emissiveIntensity={15} />
+      </mesh>
+    </>
   );
 }
