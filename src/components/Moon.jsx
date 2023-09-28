@@ -1,38 +1,28 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import { damp } from "three/src/math/MathUtils";
+import { useGLTF } from "@react-three/drei";
 
-export default function Moon({ earthRadius }) {
+export default function Moon({ earthRadius, earthPos }) {
   const moonRef = useRef(null);
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime() * 0.5;
-    // moonRef.current.position.x -= time;
-    // let axis = new THREE.Vector3(earthRadius).normalize();
-    // const quaternion = new THREE.Quaternion();
-    // let x = Math.sin(time + axis);
-    // let y = Math.cos(time + axis);
-    // let angle = x + y;
-    // quaternion.setFromAxisAngle(axis, angle);
-    // moonRef.current.applyQuaternion(quaternion);
-    // * * *
-    // damp((moonRef.current.position.x -= Math.sin(time + axis.x * 0.5) * 0.05));
-    // damp((moonRef.current.position.y -= Math.cos(time + axis.y * 0.5) * 0.05));
-    // * * *
-    // moonRef.current.position.y -=
-    //   Math.cos(time + testMoonVec.x * 0.5 * -1) * 0.05;
-    // moonRef.current.position.x -=
-    //   Math.sin(time + testMoonVec.x * 0.5 * -1) * 0.05;
-    // moonRef.current.position.z -=
-    //   Math.sin(time + testMoonVec.x * 0.5 * -1) * 0.05;
   });
-
+  const { scene } = useGLTF("./Moon.glb");
+  console.log("moon", scene.children[0].geometry);
   return (
     <>
-      <mesh ref={moonRef} scale={[1, 1, 1]} position={[13, 0, 0]}>
+      <mesh
+        name="MoonMesh"
+        // ref={earthRef}
+        scale={[1, 1, 1]}
+        geometry={scene.children[0].geometry}
+        material={scene.children[0].material}
+        position={[earthPos + 7.5, 0, 0]}
+      />
+      {/* <mesh ref={moonRef} scale={[1, 1, 1]} position={[earthPos + 7.5, 0, 0]}>
         <sphereGeometry />
         <meshStandardMaterial color="lightgray" />
-      </mesh>
+      </mesh> */}
     </>
   );
 }
