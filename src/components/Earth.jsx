@@ -15,8 +15,6 @@ import OrbitSys from "./OrbitSys";
 export default function Earth({ earthRadius, earthPos }) {
   const earthRef = useRef(null);
   const earthLight = useRef(null);
-  const moonEarthRef = useRef(null);
-  const moonGroupRef = useRef(null);
   const [earthTexture, earthNormalMap, earthSpecularMap] = useTexture([
     "./earthDaymap.jpg",
     "./earthNormalMap.jpeg",
@@ -70,7 +68,7 @@ export default function Earth({ earthRadius, earthPos }) {
 
   return (
     <>
-      {/* <EffectComposer enabled={BloomEnabled}>
+      <EffectComposer enabled={BloomEnabled}>
         <SelectiveBloom
           intensity={intensityBloom}
           // luminanceSmoothing={0.03}
@@ -86,7 +84,7 @@ export default function Earth({ earthRadius, earthPos }) {
         ref={earthLight}
         intensity={intensityLight}
         color={"lightblue"}
-      /> */}
+      />
       <mesh
         ref={earthRef}
         name="EarthMesh"

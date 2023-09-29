@@ -3,37 +3,23 @@ import "./App.css";
 import {
   EnvironmentMap,
   OrbitControls,
-  Select,
   useEnvironment,
 } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import Earth from "./components/Earth";
 import { useRef } from "react";
 import Sun from "./components/Sun";
-import {
-  EffectComposer,
-  Selection,
-  SelectiveBloom,
-} from "@react-three/postprocessing";
-import { Resizer, KernelSize } from "postprocessing";
 import OrbitSys from "./components/OrbitSys";
-import Moon from "./components/Moon";
-
-// add emission shaders to planets
 
 function App() {
-  console.log(Resizer);
+  // sun
   const sunRadius = 8;
   const earthRadius = 4;
+  // earth
   const earthPos = sunRadius + 13;
-  let solarSysRef = useRef(null);
-  let earthOrbitRef = useRef(null);
+  // solar system
+  const solarSysRef = useRef(null);
+  // env map
   const envMap = useEnvironment({ files: "./spaceENV.hdr" });
-
-  useFrame((state, delta) => {
-    // solarSysRef.current.rotation.y -= delta * 0.05;
-    // another planet
-  });
 
   return (
     <>
@@ -42,11 +28,11 @@ function App() {
       {/* Contains solar system */}
       <object3D ref={solarSysRef}>
         <Sun sunRadius={sunRadius} />
-        {/* adds earth orbit path */}
+        {/* adds earth orbit sys */}
         <OrbitSys rotationSpeed={0.05}>
           <Earth earthRadius={earthRadius} earthPos={earthPos} />
           {/* <OrbitSys rotationSpeed={0.05}> */}
-          {/* another planet */}
+          {/* another planet sys */}
           {/* <Moon earthPos={earthPos} /> */}
           {/* </OrbitSys> */}
         </OrbitSys>

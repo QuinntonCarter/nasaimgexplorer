@@ -8,16 +8,15 @@ import { useControls } from "leva";
 export default function Moon({ earthRadius, earthPos }) {
   const moonRef = useRef(null);
   const moonLight = useRef(null);
-  useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime() * 0.5;
-    moonRef.current.rotation.x -= delta * 0.05;
-    moonRef.current.rotation.y -= delta * 0.07;
-    // moonRef.current.rotation.z -= delta * 0.05;
-  });
   const [moonTexture, moonDisplacementMap] = useTexture([
     "./moon2k.jpeg",
     "./moonDisplacement.jpeg",
   ]);
+  useFrame((state, delta) => {
+    // const time = state.clock.getElapsedTime() * 0.5;
+    moonRef.current.rotation.x -= delta * 0.05;
+    moonRef.current.rotation.y -= delta * 0.07;
+  });
   const {
     intensityLight,
     intensityEmissive,
