@@ -1,33 +1,27 @@
 /* eslint-disable react/no-unknown-property */
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Outlines, useGLTF, useTexture } from "@react-three/drei";
-import {
-  Bloom,
-  Outline,
-  EffectComposer,
-  SelectiveBloom,
-} from "@react-three/postprocessing";
+import { useGLTF } from "@react-three/drei";
+import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { useControls } from "leva";
 
 export default function Sun({ sunRadius }) {
   const sunRef = useRef(null);
   const sunLight = useRef(null);
-  const { scene, materials } = useGLTF("./Our_Sun.glb");
-  const sunTexture = useTexture("./2k_sun.jpg");
+  const { scene } = useGLTF("./Our_Sun.glb");
   useFrame((state, delta) => {
-    let time = state.clock.getElapsedTime();
-    // earthRef.current.rotation.y += delta * 0.5;
-    // earthRef.current.rotation.x += delta * 0.5;
-    // moonGroupRef.current.position.x -= time / 2;
+    sunRef.current.rotation.y += delta * 0.005;
   });
+
   const {
     intensityLight,
     intensityEmissive,
     intensityBloom,
     bloomRadius,
     BloomLuminanceThreshold,
+    BloomEnabled,
   } = useControls("Sun bloom/Light", {
+    BloomEnabled: true,
     intensityLight: {
       value: 2.52,
       step: 0.001,
@@ -62,7 +56,7 @@ export default function Sun({ sunRadius }) {
 
   return (
     <>
-      <EffectComposer>
+      <EffectComposer enabled={BloomEnabled}>
         <SelectiveBloom
           intensity={intensityBloom}
           luminanceSmoothing={0.03}

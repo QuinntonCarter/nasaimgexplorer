@@ -4,7 +4,8 @@ import "./index.css";
 import { Canvas } from "@react-three/fiber";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Canvas shadows={false} camera={{ position: [18, 50, 0] }}>
+  <Canvas shadows={true} camera={{ position: [18, 50, 0] }}>
+    <axesHelper args={[30]} />
     <App />
   </Canvas>
 );

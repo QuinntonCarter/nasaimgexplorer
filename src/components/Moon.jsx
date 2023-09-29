@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useTexture } from "@react-three/drei";
 import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { useControls } from "leva";
 
@@ -11,8 +11,8 @@ export default function Moon({ earthRadius, earthPos }) {
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime() * 0.5;
     moonRef.current.rotation.x -= delta * 0.05;
-    moonRef.current.rotation.y -= delta * 0.05;
-    moonRef.current.rotation.z -= delta * 0.05;
+    moonRef.current.rotation.y -= delta * 0.07;
+    // moonRef.current.rotation.z -= delta * 0.05;
   });
   const [moonTexture, moonDisplacementMap] = useTexture([
     "./moon2k.jpeg",
@@ -24,7 +24,9 @@ export default function Moon({ earthRadius, earthPos }) {
     intensityBloom,
     bloomRadius,
     BloomLuminanceThreshold,
-  } = useControls("Earth bloom/Light", {
+    BloomEnabled,
+  } = useControls("Moon bloom/Light", {
+    BloomEnabled: true,
     intensityLight: {
       value: 0.37,
       step: 0.001,
@@ -58,7 +60,7 @@ export default function Moon({ earthRadius, earthPos }) {
   });
   return (
     <>
-      <EffectComposer>
+      <EffectComposer enabled={BloomEnabled}>
         <SelectiveBloom
           intensity={intensityBloom}
           // luminanceSmoothing={0.03}
@@ -78,9 +80,11 @@ export default function Moon({ earthRadius, earthPos }) {
       <mesh
         name="MoonMesh"
         ref={moonRef}
-        scale={(0.38, 0.38, 0.38)}
-        position={[earthPos + 7.5, 0, 0]}
+        scale={(0.3, 0.3, 0.3)}
+        position={[3, 0, 0]}
       >
+        <axesHelper args={[2]} />
+
         <sphereGeometry />
         <meshStandardMaterial
           displacementMap={moonDisplacementMap}

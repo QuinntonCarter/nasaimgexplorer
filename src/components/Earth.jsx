@@ -10,6 +10,7 @@ import {
   SelectiveBloom,
 } from "@react-three/postprocessing";
 import { useControls } from "leva";
+import OrbitSys from "./OrbitSys";
 
 export default function Earth({ earthRadius, earthPos }) {
   const earthRef = useRef(null);
@@ -22,13 +23,9 @@ export default function Earth({ earthRadius, earthPos }) {
     "./earthSpecularMap.jpeg",
   ]);
   useFrame((state, delta) => {
-    // rotation moon and earth around sun
-    moonEarthRef.current.rotation.y -= delta * 0.05;
-    // rotations earth
+    // rotations earth * is enacting on moon as well
     earthRef.current.rotation.x -= delta * 0.07;
     earthRef.current.rotation.y -= delta * 0.07;
-    // rotates moon around entire system but need to set path just around earth
-    // moonGroupRef.current.rotation.y -= delta * 0.2;
   });
   const {
     intensityLight,
@@ -36,7 +33,9 @@ export default function Earth({ earthRadius, earthPos }) {
     intensityBloom,
     bloomRadius,
     BloomLuminanceThreshold,
+    BloomEnabled,
   } = useControls("Earth bloom/Light", {
+    BloomEnabled: true,
     intensityLight: {
       value: 0.18,
       step: 0.001,
@@ -70,8 +69,8 @@ export default function Earth({ earthRadius, earthPos }) {
   });
 
   return (
-    <group name="earthGroup" ref={moonEarthRef}>
-      <EffectComposer>
+    <>
+      {/* <EffectComposer enabled={BloomEnabled}>
         <SelectiveBloom
           intensity={intensityBloom}
           // luminanceSmoothing={0.03}
@@ -87,13 +86,14 @@ export default function Earth({ earthRadius, earthPos }) {
         ref={earthLight}
         intensity={intensityLight}
         color={"lightblue"}
-      />
+      /> */}
       <mesh
         ref={earthRef}
         name="EarthMesh"
         scale={({ earthRadius }, 1.5, 1.5)}
         position={[earthPos, 0, 0]}
       >
+        <axesHelper args={[3]} />
         <sphereGeometry />
         <meshPhongMaterial
           map={earthTexture}
@@ -102,10 +102,11 @@ export default function Earth({ earthRadius, earthPos }) {
           emissive={"blue"}
           emissiveIntensity={intensityEmissive}
         />
+        {/* adds moonsys to earth mesh as child * being acted on by earth sys too */}
+        <OrbitSys rotationSpeed={0.5}>
+          <Moon earthPos={earthPos} />
+        </OrbitSys>
       </mesh>
-      {/* <group ref={moonGroupRef}> */}
-      <Moon earthPos={earthPos} />
-      {/* </group> */}
-    </group>
+    </>
   );
 }

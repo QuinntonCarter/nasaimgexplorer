@@ -16,6 +16,8 @@ import {
   SelectiveBloom,
 } from "@react-three/postprocessing";
 import { Resizer, KernelSize } from "postprocessing";
+import OrbitSys from "./components/OrbitSys";
+import Moon from "./components/Moon";
 
 // add emission shaders to planets
 
@@ -24,34 +26,31 @@ function App() {
   const sunRadius = 8;
   const earthRadius = 4;
   const earthPos = sunRadius + 13;
-  const earthRef = useRef(null);
-  let testRef = useRef(null);
+  let solarSysRef = useRef(null);
   let earthOrbitRef = useRef(null);
-  let planetOrbitRef = useRef(null);
   const envMap = useEnvironment({ files: "./spaceENV.hdr" });
-  // console.log(envMap);
+
   useFrame((state, delta) => {
-    // testRef.current.rotation.y -= delta * 0.005;
+    // solarSysRef.current.rotation.y -= delta * 0.05;
     // another planet
-    // earthOrbitRef.current.rotation.y -= delta * 0.08;
   });
-  console.log("earth orbit", earthOrbitRef);
+
   return (
     <>
       <EnvironmentMap background map={envMap} />
       <OrbitControls />
-
-      <mesh ref={testRef}>
+      {/* Contains solar system */}
+      <object3D ref={solarSysRef}>
         <Sun sunRadius={sunRadius} />
-
-        <group ref={earthOrbitRef} position={[0, 0, 0]}>
-          <Earth ref={earthRef} earthRadius={earthRadius} earthPos={earthPos} />
-          <group ref={planetOrbitRef}>
-            {/* another planet */}
-            {/* <Moon earthPos={planetOrbitRef} /> */}
-          </group>
-        </group>
-      </mesh>
+        {/* adds earth orbit path */}
+        <OrbitSys rotationSpeed={0.05}>
+          <Earth earthRadius={earthRadius} earthPos={earthPos} />
+          {/* <OrbitSys rotationSpeed={0.05}> */}
+          {/* another planet */}
+          {/* <Moon earthPos={earthPos} /> */}
+          {/* </OrbitSys> */}
+        </OrbitSys>
+      </object3D>
     </>
   );
 }
