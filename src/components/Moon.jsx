@@ -1,28 +1,94 @@
+/* eslint-disable react/no-unknown-property */
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
+import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
+import { useControls } from "leva";
 
 export default function Moon({ earthRadius, earthPos }) {
   const moonRef = useRef(null);
+  const moonLight = useRef(null);
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime() * 0.5;
+    moonRef.current.rotation.x -= delta * 0.05;
+    moonRef.current.rotation.y -= delta * 0.05;
+    moonRef.current.rotation.z -= delta * 0.05;
   });
-  const { scene } = useGLTF("./Moon.glb");
-  console.log("moon", scene.children[0].geometry);
+  const [moonTexture, moonDisplacementMap] = useTexture([
+    "./moon2k.jpeg",
+    "./moonDisplacement.jpeg",
+  ]);
+  const {
+    intensityLight,
+    intensityEmissive,
+    intensityBloom,
+    bloomRadius,
+    BloomLuminanceThreshold,
+  } = useControls("Earth bloom/Light", {
+    intensityLight: {
+      value: 0.37,
+      step: 0.001,
+      min: 0,
+      max: 10,
+    },
+    intensityEmissive: {
+      value: 0.8,
+      step: 0.001,
+      min: 0,
+      max: 10,
+    },
+    intensityBloom: {
+      value: 1.73,
+      step: 0.001,
+      min: 0,
+      max: 10,
+    },
+    bloomRadius: {
+      value: 0.53,
+      step: 0.001,
+      min: 0,
+      max: 0.99,
+    },
+    BloomLuminanceThreshold: {
+      value: 0.02,
+      step: 0.001,
+      min: 0,
+      max: 0.99,
+    },
+  });
   return (
     <>
+      <EffectComposer>
+        <SelectiveBloom
+          intensity={intensityBloom}
+          // luminanceSmoothing={0.03}
+          luminanceThreshold={BloomLuminanceThreshold}
+          mipmapBlur
+          radius={bloomRadius}
+          levels={7}
+          selection={moonRef.current}
+          lights={moonLight}
+        />
+      </EffectComposer>
+      <ambientLight
+        ref={moonLight}
+        intensity={intensityLight}
+        color={"white"}
+      />
       <mesh
         name="MoonMesh"
-        // ref={earthRef}
-        scale={[1, 1, 1]}
-        geometry={scene.children[0].geometry}
-        material={scene.children[0].material}
+        ref={moonRef}
+        scale={(0.38, 0.38, 0.38)}
         position={[earthPos + 7.5, 0, 0]}
-      />
-      {/* <mesh ref={moonRef} scale={[1, 1, 1]} position={[earthPos + 7.5, 0, 0]}>
+      >
         <sphereGeometry />
-        <meshStandardMaterial color="lightgray" />
-      </mesh> */}
+        <meshStandardMaterial
+          displacementMap={moonDisplacementMap}
+          map={moonTexture}
+          emissionColor={"white"}
+          emissiveIntensity={intensityEmissive}
+        />
+      </mesh>
     </>
   );
 }
