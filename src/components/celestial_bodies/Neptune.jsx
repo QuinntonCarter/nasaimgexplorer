@@ -79,22 +79,8 @@ export default function Neptune({ neptuneRadius, neptunePos }) {
         intensity={intensityLight}
         color={"lightblue"}
       />
-      {/* <mesh
-        scale={(5.5, 5.5, 5.5)}
-        ref={neptuneRef.current}
-        // ** position
-        position={[37, 0, 0]}
-        // issues loading material on mount
-        // material={materials["Default OBJ.005"]}
-      >
-    </mesh> */}
-      <mesh
-        ref={neptuneRef.current}
-        position={[75, 0, 0]}
-        scale={(2, 2, 2)}
-        // geometry={nodes.Neptune.geometry}
-        // material={materials["Default OBJ.001"].map}
-      >
+
+      <mesh ref={neptuneRef.current} position={[75, 0, 0]} scale={(2, 2, 2)}>
         <axesHelper args={[3]} />
         <Html>
           <p style={{ color: "green" }}> neptune </p>

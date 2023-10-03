@@ -96,7 +96,7 @@ export default function Uranus({ uranusRadius, uranusPos }) {
         <meshStandardMaterial
           // issues loading material on mount >> ** look in .map **
           map={materials["Default OBJ.001"].map}
-          emissive={"forestgreen"}
+          emissive={"rgb(127, 174, 250)"}
           emissiveIntensity={intensityEmissive}
         />
       </mesh>
