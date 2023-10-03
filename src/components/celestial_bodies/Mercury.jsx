@@ -79,7 +79,7 @@ export default function Mercury({ mercuryRadius, mercuryPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(2, 0.5, 0.5)}
+        scale={(0.5, 0.5, 0.5)}
         ref={mercuryRef.current}
         // ** position
         position={[11.5, 0, 0]}

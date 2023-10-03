@@ -14,7 +14,7 @@ export default function Jupiter({ jupiterRadius, jupiterPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    console.log("jupiter", nodes.cubemap.geometry);
+    // console.log("jupiter", nodes.cubemap.geometry);
     // rotations earth * is enacting on moon as well
     // jupiterRef.current.rotation.x -= delta * 0.07;
     // jupiterRef.current.rotation.y -= delta * 0.07;

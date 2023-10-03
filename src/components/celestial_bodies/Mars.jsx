@@ -14,7 +14,7 @@ export default function Mars({ marsRadius, marsPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    // console.log("mars", materials["Default OBJ.005"]);
+    console.log("mars", nodes.Cube008.geometry);
     // rotations earth * is enacting on moon as well
     // marsRef.current.rotation.x -= delta * 0.07;
     // marsRef.current.rotation.y -= delta * 0.07;
@@ -80,19 +80,18 @@ export default function Mars({ marsRadius, marsPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(0.7, 0.7, 0.7)}
+        scale={(0.0015, 0.0015, 0.0015)}
         ref={marsRef.current}
         // ** position
         position={[27, 0, 0]}
-        // material={materials["Default OBJ.005"]}
+        geometry={nodes.Cube008.geometry}
       >
         <Html lang="en">
           <p style={{ color: "red" }}> mars </p>
         </Html>
         <axesHelper args={[3]} />
-        <sphereGeometry />
         <meshStandardMaterial
-          //   map={materials["Default OBJ.005"].map}
+          map={materials["Default OBJ.005"].map}
           emissive={"orange"}
           emissiveIntensity={intensityEmissive}
         />

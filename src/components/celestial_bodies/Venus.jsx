@@ -80,7 +80,7 @@ export default function Venus({ mercuryRadius, mercuryPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(2, 1.5, 1.5)}
+        scale={(1.2, 1.2, 1.2)}
         ref={venusRef.current}
         // ** position
         position={[16, 0, 0]}
