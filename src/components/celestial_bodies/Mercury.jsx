@@ -1,29 +1,22 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/no-unknown-property */
-import { useRef, forwardRef } from "react";
+import { useTexture, useGLTF, Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import Moon from "./Moon";
-import { useGLTF, useTexture } from "@react-three/drei";
-import {
-  Bloom,
-  EffectComposer,
-  SelectiveBloom,
-} from "@react-three/postprocessing";
+import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { useControls } from "leva";
-import OrbitSys from "./OrbitSys";
+import { useRef } from "react";
 
-export default function Earth({ earthRadius, earthPos }) {
-  const earthRef = useRef(null);
-  const earthLight = useRef(null);
-  const [earthTexture, earthNormalMap, earthSpecularMap] = useTexture([
-    "./earthDaymap.jpg",
-    "./earthNormalMap.jpeg",
-    "./earthSpecularMap.jpeg",
-  ]);
+export default function Mercury({ mercuryRadius, mercuryPos }) {
+  const mercuryRef = useRef(null);
+  const mercuryLight = useRef(null);
+  const { nodes, materials } = useGLTF("/nasamercury-transformed.glb");
+  //   const [mercuryTexture, mercuryNormalMap, mercurySpecularMap] = useTexture([
+  //     "./earthDaymap.jpg",
+  //     "./earthNormalMap.jpeg",
+  //     "./earthSpecularMap.jpeg",
+  //   ]);
   useFrame((state, delta) => {
     // rotations earth * is enacting on moon as well
-    earthRef.current.rotation.x -= delta * 0.07;
-    earthRef.current.rotation.y -= delta * 0.07;
+    // mercuryRef.current.rotation.x -= delta * 0.07;
+    // mercuryRef.current.rotation.y -= delta * 0.07;
   });
   const {
     intensityLight,
@@ -76,35 +69,40 @@ export default function Earth({ earthRadius, earthPos }) {
           mipmapBlur
           radius={bloomRadius}
           levels={7}
-          selection={earthRef.current}
-          lights={earthLight}
+          selection={mercuryRef.current}
+          lights={mercuryLight}
         />
       </EffectComposer>
       <ambientLight
-        ref={earthLight}
+        ref={mercuryLight}
         intensity={intensityLight}
         color={"lightblue"}
       />
       <mesh
-        ref={earthRef}
-        name="EarthMesh"
-        scale={({ earthRadius }, 1.5, 1.5)}
-        position={[earthPos, 0, 0]}
+        scale={(2, 0.5, 0.5)}
+        ref={mercuryRef.current}
+        // ** position
+        position={[11.5, 0, 0]}
+        material={materials["Default OBJ.005"]}
       >
+        <Html lang="en">
+          <p style={{ color: "teal" }}> mercury </p>
+        </Html>
         <axesHelper args={[3]} />
         <sphereGeometry />
-        <meshPhongMaterial
-          map={earthTexture}
-          normalMap={earthNormalMap}
-          specularMap={earthSpecularMap}
-          emissive={"blue"}
+        <meshStandardMaterial
+          emissive={"khaki"}
           emissiveIntensity={intensityEmissive}
         />
-        {/* adds moonsys to earth mesh as child * being acted on by earth sys too */}
-        <OrbitSys rotationSpeed={0.5}>
-          <Moon earthPos={earthPos} />
-        </OrbitSys>
       </mesh>
+
+      {/* adds moonsys to earth mesh as child * being acted on by earth sys too */}
+      {/* <OrbitSys rotationSpeed={0.5}>
+          <Moon earthPos={mercuryPos} />
+        </OrbitSys> */}
+      {/* </mesh> */}
     </>
   );
 }
+
+useGLTF.preload("/nasamercury-transformed.glb");

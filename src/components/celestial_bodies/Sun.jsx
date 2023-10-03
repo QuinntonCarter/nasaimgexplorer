@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { Html, useGLTF } from "@react-three/drei";
 import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { useControls } from "leva";
 
@@ -81,6 +81,10 @@ export default function Sun({ sunRadius }) {
         scale={(sunRadius, 20, 20)}
         ref={sunRef}
       >
+        <axesHelper args={[0.7]} />
+        <Html lang="en">
+          <p style={{ color: "orange" }}> our sun </p>
+        </Html>
         <meshStandardMaterial
           emissive="orange"
           emissiveIntensity={intensityEmissive}
