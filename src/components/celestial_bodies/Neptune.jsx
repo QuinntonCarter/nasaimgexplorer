@@ -14,7 +14,7 @@ export default function Neptune({ neptuneRadius, neptunePos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    console.log("neptune", materials["Default OBJ.001"].map);
+    // console.log("neptune", materials["Default OBJ.001"].map);
     // rotations earth * is enacting on moon as well
     // jupiterRef.current.rotation.x -= delta * 0.07;
     // jupiterRef.current.rotation.y -= delta * 0.07;

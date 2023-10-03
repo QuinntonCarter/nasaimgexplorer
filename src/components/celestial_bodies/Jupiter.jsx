@@ -14,7 +14,7 @@ export default function Jupiter({ jupiterRadius, jupiterPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    // console.log("jupiter", materials);
+    console.log("jupiter", nodes.cubemap.geometry);
     // rotations earth * is enacting on moon as well
     // jupiterRef.current.rotation.x -= delta * 0.07;
     // jupiterRef.current.rotation.y -= delta * 0.07;
@@ -80,20 +80,17 @@ export default function Jupiter({ jupiterRadius, jupiterPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(5.5, 5.5, 5.5)}
+        scale={(0.013, 0.013, 0.013)}
         ref={jupiterRef.current}
-        // ** position
         position={[37, 0, 0]}
         // issues loading material on mount
-        // material={materials.None}
+        geometry={nodes.cubemap.geometry}
       >
         <Html>
           <p style={{ color: "maroon" }}>jupiter </p>
         </Html>
         <axesHelper args={[1.7]} />
-        <sphereGeometry />
         <meshStandardMaterial
-          // issues loading material on mount
           map={materials.None.map}
           emissive={"orange"}
           emissiveIntensity={intensityEmissive}

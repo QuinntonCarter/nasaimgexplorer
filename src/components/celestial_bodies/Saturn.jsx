@@ -81,10 +81,15 @@ export default function Saturn({ saturnRadius, saturnPos }) {
           geometry={nodes.RingsTop.geometry}
           material={materials.SaturnRings}
         >
-          <mesh geometry={nodes.Saturn001.geometry} material={materials.None}>
+          <mesh geometry={nodes.Saturn001.geometry}>
             <Html lang="en">
               <p style={{ color: "lightblue", fontSize: "18px" }}>saturn</p>
             </Html>
+            <meshStandardMaterial
+              map={materials.None.map}
+              emissive={"khaki"}
+              emissiveIntensity={0.15}
+            />
           </mesh>
         </mesh>
       </group>
