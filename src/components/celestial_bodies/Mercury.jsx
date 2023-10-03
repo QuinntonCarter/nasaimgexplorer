@@ -14,6 +14,7 @@ export default function Mercury({ mercuryRadius, mercuryPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
+    console.log("mercury", nodes.Cube008.geometry);
     // rotations earth * is enacting on moon as well
     // mercuryRef.current.rotation.x -= delta * 0.07;
     // mercuryRef.current.rotation.y -= delta * 0.07;
@@ -79,18 +80,18 @@ export default function Mercury({ mercuryRadius, mercuryPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(0.5, 0.5, 0.5)}
+        scale={(0.001, 0.001, 0.001)}
         ref={mercuryRef.current}
         // ** position
         position={[11.5, 0, 0]}
-        material={materials["Default OBJ.005"]}
+        geometry={nodes.Cube008.geometry}
       >
         <Html lang="en">
           <p style={{ color: "teal" }}> mercury </p>
         </Html>
         <axesHelper args={[3]} />
-        <sphereGeometry />
         <meshStandardMaterial
+          map={materials["Default OBJ.005"].map}
           emissive={"khaki"}
           emissiveIntensity={intensityEmissive}
         />
