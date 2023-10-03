@@ -14,7 +14,6 @@ export default function Venus({ mercuryRadius, mercuryPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    // console.log("venus", nodes);
     // rotations earth * is enacting on moon as well
     // venusRef.current.rotation.x -= delta * 0.07;
     // venusRef.current.rotation.y -= delta * 0.07;
@@ -80,18 +79,18 @@ export default function Venus({ mercuryRadius, mercuryPos }) {
         color={"lightblue"}
       />
       <mesh
-        scale={(1.2, 1.2, 1.2)}
+        scale={(0.0025, 0.0025, 0.0025)}
         ref={venusRef.current}
         // ** position
         position={[16, 0, 0]}
-        material={materials["Default OBJ"]}
+        geometry={nodes.cylindrically_mapped_sphereMesh.geometry}
       >
         <Html lang="en">
           <p style={{ color: "salmon" }}> venus </p>
         </Html>
         <axesHelper args={[3]} />
-        <sphereGeometry />
         <meshStandardMaterial
+          map={materials["Default OBJ"].map}
           emissive={"brown"}
           emissiveIntensity={intensityEmissive}
         />

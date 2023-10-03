@@ -14,7 +14,7 @@ export default function Mars({ marsRadius, marsPos }) {
   //     "./earthSpecularMap.jpeg",
   //   ]);
   useFrame((state, delta) => {
-    console.log("mars", nodes.Cube008.geometry);
+    // console.log("mars", nodes.Cube008.geometry);
     // rotations earth * is enacting on moon as well
     // marsRef.current.rotation.x -= delta * 0.07;
     // marsRef.current.rotation.y -= delta * 0.07;
